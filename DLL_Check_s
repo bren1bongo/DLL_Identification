@@ -1,6 +1,6 @@
 ## Simple PowerShell script to check for DLLs loaded from user-writable locations using Event ID 7 from Sysmon logs
 
-$logPath = "C:\your\log\path\here"
+$logPath = "C:\your\log\path\here.evtx"
 
 $filter = @{
     Path = $logPath
