@@ -1,6 +1,6 @@
 ## 
 
-$logPath = "C:\Logs\DLLHijack\DLLHijack.evtx"
+$logPath = "C:\your\log\path\here.evtx"
 
 $filter = @{
     Path = $logPath
