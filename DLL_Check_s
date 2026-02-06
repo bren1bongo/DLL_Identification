@@ -1,0 +1,21 @@
+## Simple PowerShell script to check for DLLs loaded from user-writable locations using Event ID 7 from Sysmon logs
+
+$logPath = "C:\your\log\path\here"
+
+$filter = @{
+    Path = $logPath
+    Id   = 7
+}
+
+Get-WinEvent -FilterHashtable $filter |
+ForEach-Object {
+    $procPath = $_.Properties[4].Value
+    $dllPath  = $_.Properties[5].Value
+    if ($dllPath -match "AppData|Temp|ProgramData|Public") {
+        [PSCustomObject]@{
+            TimeCreated = $_.TimeCreated
+            Image       = $procPath
+            ImageLoaded = $dllPath
+        }
+    }
+}

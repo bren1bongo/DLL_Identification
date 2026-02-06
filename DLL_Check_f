@@ -1,0 +1,25 @@
+## 
+
+$logPath = "C:\Logs\DLLHijack\DLLHijack.evtx"
+
+$filter = @{
+    Path = $logPath
+    Id   = 1
+}
+
+Get-WinEvent -FilterHashtable $filter |
+ForEach-Object {
+    $imagePath = $_.Properties[4].Value
+    $cmdLine  = $_.Properties[10].Value
+    $cwd = $_.Properties[11].Value
+    $User = $_.Properties[12].Value
+    if ($cwd -match "AppData|Temp|ProgramData|Public") {
+        [PSCustomObject]@{
+            TimeCreated         = $_.TimeCreated
+            Image               = $imagePath
+            CommandLine         = $cmdLine
+            CurrentDirectory    = $cwd
+            User                = $User
+        }
+    }
+}
